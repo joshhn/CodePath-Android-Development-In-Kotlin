@@ -8,6 +8,35 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tvStreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Streak x0"
+        android:layout_margin="25dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&#8634;"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/backgroundColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
         android:id="@+id/tvLabel1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +47,7 @@
         android:visibility="invisible"
         tools:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnReset" />
 
     <TextView
         android:id="@+id/tvGuess1"
@@ -30,7 +59,7 @@
         android:visibility="invisible"
         tools:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnReset" />
 
     <TextView
         android:id="@+id/tvCheckLabel1"
@@ -213,16 +242,16 @@
         android:id="@+id/btnRestart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RESTART"
-        android:textSize="40sp"
-        android:textColor="@color/backgroundColor"
         android:backgroundTint="@color/buttonColor"
+        android:text="RESTART"
+        android:textColor="@color/backgroundColor"
+        android:textSize="25sp"
         android:visibility="invisible"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/tvStreak"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

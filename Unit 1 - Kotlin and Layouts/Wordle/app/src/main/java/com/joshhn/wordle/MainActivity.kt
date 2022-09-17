@@ -6,12 +6,14 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.text.color
 import com.github.jinatonic.confetti.CommonConfetti
 import com.joshhn.wordle.databinding.ActivityMainBinding
 
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val getWord = FourLetterWordList()
     private var wordToGuess = ""
     private var counter = 0
+    private var streak = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         binding?.btnStart?.setOnClickListener {
             //Generate keyword
-            wordToGuess = getWord.getRandomFourLetterWord()
+            //wordToGuess = getWord.getRandomFourLetterWord()
+            wordToGuess = "HOME"
             binding?.tvKeyword?.text = wordToGuess
             counter = 0
 
@@ -38,6 +42,8 @@ class MainActivity : AppCompatActivity() {
             binding?.etInput?.visibility = View.VISIBLE
             binding?.btnSubmit?.visibility = View.VISIBLE
             binding?.tvLabel1?.visibility = View.VISIBLE
+            binding?.btnReset?.visibility = View.VISIBLE
+            binding?.tvStreak?.visibility = View.VISIBLE
         }
 
         binding?.btnSubmit?.setOnClickListener {
@@ -51,7 +57,10 @@ class MainActivity : AppCompatActivity() {
                 hideKeyboard()
                 editText?.setText("")
 
-                checkWin(inputValue)
+                if(checkWin(inputValue)){
+                    streak++
+                    binding?.tvStreak?.text = "Streak x$streak"
+                }
 
                 val answer = checkGuess(inputValue)
                 val modifiedAnswer = customCheckedGuess(answer, inputValue)
@@ -70,7 +79,11 @@ class MainActivity : AppCompatActivity() {
                     binding?.tvCheckLabel2?.visibility = View.VISIBLE
                     binding?.tvCheck2?.visibility = View.VISIBLE
                 }else if(counter == 3) {
-                    checkWin(inputValue)
+                    if(!checkWin(inputValue)){
+                        Toast.makeText(this, "You lose! Let's do it again!", Toast.LENGTH_SHORT).show()
+                        streak = 0
+                        binding?.tvStreak?.text = "Streak x$streak"
+                    }
                     binding?.tvGuess3?.text = inputValue
                     binding?.tvCheck3?.text = modifiedAnswer
                     binding?.tvLabel3?.visibility = View.VISIBLE
@@ -89,6 +102,12 @@ class MainActivity : AppCompatActivity() {
         binding?.btnRestart?.setOnClickListener {
             setupRestart()
         }
+
+        binding?.btnReset?.setOnClickListener {
+            setupRestart()
+            streak = 0
+            binding?.tvStreak?.text = "Streak x$streak"
+        }
     }
 
     private fun isValidInput(inputValue: String): Boolean {
@@ -100,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun checkWin(inputValue: String) {
+    private fun checkWin(inputValue: String): Boolean {
         if(counter < 4 && inputValue == wordToGuess){
             CommonConfetti.rainingConfetti(binding?.root, intArrayOf(Color.GREEN,Color.BLACK, Color.YELLOW, Color.RED, Color.GRAY, Color.WHITE, Color.BLUE, Color.CYAN, Color.DKGRAY, Color.LTGRAY, Color.MAGENTA))
                 .stream(5000)
@@ -108,7 +127,9 @@ class MainActivity : AppCompatActivity() {
             binding?.btnRestart?.visibility = View.VISIBLE
             hideKeyboard()
             Toast.makeText(this, "Congratulations! You win!", Toast.LENGTH_SHORT).show()
+            return true
         }
+        return false
     }
 
     private fun setupRestart() {
@@ -129,6 +150,8 @@ class MainActivity : AppCompatActivity() {
         binding?.tvGuess3?.visibility = View.INVISIBLE
         binding?.tvKeyword?.visibility = View.INVISIBLE
         binding?.btnRestart?.visibility = View.INVISIBLE
+        binding?.btnReset?.visibility = View.INVISIBLE
+        binding?.tvStreak?.visibility = View.INVISIBLE
         binding?.btnSubmit?.isClickable = true
     }
 
@@ -160,24 +183,52 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun customCheckedGuess(checkedGuess: String, guess: String) : SpannableString {
-        val spannableString = SpannableString(guess)
-        val correctFColor = ForegroundColorSpan(ContextCompat.getColor(this@MainActivity, R.color.correctColor))
-        val wrongFColor = ForegroundColorSpan(ContextCompat.getColor(this@MainActivity, R.color.wrongColor))
-        val existFColor = ForegroundColorSpan(ContextCompat.getColor(this@MainActivity, R.color.existColor))
+    private fun customCheckedGuess(checkedGuess: String, guess: String) : SpannableStringBuilder? {
+
+        //Method 1 (not work right)
+//        val spannableString = SpannableString(guess)
+//        val correctFColor = ForegroundColorSpan(ContextCompat.getColor(this@MainActivity, R.color.correctColor))
+//        val wrongFColor = ForegroundColorSpan(ContextCompat.getColor(this@MainActivity, R.color.wrongColor))
+//        val existFColor = ForegroundColorSpan(ContextCompat.getColor(this@MainActivity, R.color.existColor))
+//
+//        for (i in 0..3) {
+//            if (checkedGuess[i] == 'O') {
+//                spannableString.setSpan(correctFColor,i,i+1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+//            }
+//            else if (checkedGuess[i] == '+') {
+//                spannableString.setSpan(existFColor,i,i+1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+//            }
+//            else{
+//                spannableString.setSpan(wrongFColor,i,i+1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+//            }
+//        }
+//        return spannableString
+
+
+        //Method 2 (https://stackoverflow.com/questions/10828182/spannablestringbuilder-to-create-string-with-multiple-fonts-text-sizes-etc-examp)
+        val correctColor = ContextCompat.getColor(this@MainActivity, R.color.correctColor)
+        val wrongColor = ContextCompat.getColor(this@MainActivity, R.color.wrongColor)
+        val existColor = ContextCompat.getColor(this@MainActivity, R.color.existColor)
+
+        var modifiedAnswer = SpannableStringBuilder()
+            .append("")
 
         for (i in 0..3) {
             if (checkedGuess[i] == 'O') {
-                spannableString.setSpan(correctFColor,i,i+1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                modifiedAnswer = modifiedAnswer
+                    .color(correctColor) { append(guess[i]) }
             }
             else if (checkedGuess[i] == '+') {
-                spannableString.setSpan(existFColor,i,i+1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                modifiedAnswer = modifiedAnswer
+                    .color(existColor) { append(guess[i]) }
             }
             else{
-                spannableString.setSpan(wrongFColor,i,i+1,Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                modifiedAnswer = modifiedAnswer
+                    .color(wrongColor) { append(guess[i]) }
             }
         }
-        return spannableString
+
+        return modifiedAnswer
     }
 
     private fun hideKeyboard() {
