@@ -10,7 +10,7 @@
         android:id="@+id/rvWishList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="5dp"
         tools:listitem="@layout/wish_item"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SUBMIT"
+        android:textSize="17sp"
+        android:backgroundTint="@color/primaryColor"
         android:layout_margin="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
