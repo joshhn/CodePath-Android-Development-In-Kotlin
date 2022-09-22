@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         binding?.btnStart?.setOnClickListener {
             //Generate keyword
-            //wordToGuess = getWord.getRandomFourLetterWord()
-            wordToGuess = "HOME"
+            wordToGuess = getWord.getRandomFourLetterWord()
+            //wordToGuess = "HOME"
             binding?.tvKeyword?.text = wordToGuess
             counter = 0
 
