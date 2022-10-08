@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.208" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3115942028985507" />
+        <entry key="app/src/main/res/layout/activity_top_rated_movie_details.xml" value="0.37273550724637683" />
+        <entry key="app/src/main/res/layout/activity_upcoming_movie_details.xml" value="0.3115942028985507" />
+        <entry key="app/src/main/res/layout/item_top_rated_movie.xml" value="0.37273550724637683" />
+        <entry key="app/src/main/res/layout/item_upcoming_movie.xml" value="0.3115942028985507" />
+        <entry key="app/src/main/res/layout/item_upcoming_tvshow.xml" value="0.3115942028985507" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -70,12 +70,9 @@ class MainActivity : AppCompatActivity() {
                         articles.addAll(list)
                     }
                     // TODO: Save the articles and reload the screen
-                    parsedJson.response?.docs?.let { list ->
-                        articles.addAll(list)
 
-                        // Reload the screen
-                        articleAdapter.notifyDataSetChanged()
-                    }
+                    // Reload the screen
+                    articleAdapter.notifyDataSetChanged()
                 } catch (e: JSONException) {
                     Log.e(TAG, "Exception: $e")
                 }
