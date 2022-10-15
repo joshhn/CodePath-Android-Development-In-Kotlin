@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.joshhn.bitfit">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".FoodApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BitFit"
         tools:targetApi="31">
+        <activity
+            android:name=".InputActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
