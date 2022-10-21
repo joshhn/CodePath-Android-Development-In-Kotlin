@@ -28,6 +28,12 @@ class ArticleListFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Call the new method within onViewCreated
+        fetchArticles()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +43,7 @@ class ArticleListFragment : Fragment() {
 
         // Add these configurations for the recyclerView and to configure the adapter
         val layoutManager = LinearLayoutManager(context)
-        articlesRecyclerView = view.findViewById(R.id.articles)
+        articlesRecyclerView = view.findViewById(R.id.article_recycler_view)
         articlesRecyclerView.layoutManager = layoutManager
         articlesRecyclerView.setHasFixedSize(true)
         articleAdapter = ArticleAdapter(view.context, articles)
@@ -80,7 +86,6 @@ class ArticleListFragment : Fragment() {
                     Log.e(TAG, "Exception: $e")
                 }
             }
-
         })
     }
 }
