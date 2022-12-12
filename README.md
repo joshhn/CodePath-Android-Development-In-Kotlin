@@ -8,4 +8,4 @@ Kotlin and Layouts, Recyclerview, APIs, Multi-screen Apps, Room Database, Fragme
 
 ## Usage
 
-Go to each folder to check out my work.
+Go to each folder to check out my work (walkthrough videos included).
